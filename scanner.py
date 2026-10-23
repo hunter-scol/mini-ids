@@ -1,4 +1,5 @@
-import socket, os, errno
+import socket, os, errno, time
+
 target = "127.0.0.1"
 
 for port in range(1,101):
@@ -13,6 +14,7 @@ for port in range(1,101):
         result = os.strerror(resultCode)
 
     caller.close()
+
     print("Scanning port", port, "result:", result)
 
 
