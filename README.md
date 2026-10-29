@@ -14,9 +14,9 @@ A lightweight network intrusion detection system written in Python
   - Persistent alerts.log tracks the number of times sources have been added to the attackers list and can be displayed as a CSV file.
 - ### TCP Port Flood Attack Detection
   - Flags sources attempting to flood a specific set of TCP ports.
-  - Adds to Alerts.log.
+  - Adds to alerts.log.
   - Filters non-threatening packets and only flags for connection attempts.
-  - Reset threshold allows for possible attackers to be re-recognized.
+  - Cooldown allows for possible attackers to be re-recognized.
 
 ## How To:
 
