@@ -79,9 +79,9 @@ All tests were run against localhost only.
 
 ## Limitations
 - The program only detects SYN probes as they are the most common for establishing connection, it does this to speed up the program as to drop less packets.
-- The program only detects ~75% of probes due to the fact that it is written in Python(interpreted) rather than something like C(compiled).  I chose to write this code in python because I haven't had a class in python and wanted to learn how to write code with it.
+- The program only detects ~75% of probes due to the fact that it is written in Python (interpreted) rather than something like C (compiled).  I chose to write this code in python because I haven't had a class in python and wanted to learn how to write code with it.
 - Slow scans aren't detected.  I made a sliding window for probe retention to exclude repeated probes for the sake of normal network traffic but in the case of an attack done slowly the IDS would fail under the default conditions.
-- The program can very easily be spoofed by an attacker hiding their ip address.
+- The program can very easily be spoofed by an attacker hiding their ip address.  This is because if the source repeatedly changes their ip address the attack won't be recognized.
 
 ## Ethical Disclaimer:
 DO NOT use this tool to scan any networks that you are unauthorized to scan.
