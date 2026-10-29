@@ -1,6 +1,6 @@
 from scapy.all import sniff
 from scapy.layers.inet import IP, TCP
-import time, argparse
+import time, argparse, os
 
 parser = argparse.ArgumentParser(description='Scan a network for probes and be alerted at suspicious behavior')
 parser.add_argument("--iface", default="lo", help="interface to use")
@@ -28,6 +28,9 @@ print(f"POS_THRESHOLD: {POS_THRESHOLD}")
 print(f"ATCK_THRESHOLD: {ATCK_THRESHOLD}")
 print(f"WINDOW: {WINDOW_KNOCK}")
 
+if not os.path.exists("alerts.log") or os.path.getsize("alerts.log") == 0:
+    with open("alerts.log", "a") as f:
+        f.write("time,source,probes,times_escalated\n")
 
 def handle_packet(packet):
     if not packet.haslayer(TCP):
@@ -56,7 +59,9 @@ def handle_packet(packet):
             recentPos[source] = now
     if len(knocks[source]) == ATCK_THRESHOLD and source in posAttackers:
         attackers[source] = attackers.get(source,0) + 1
-        #push to file
+        with open("alerts.log", "a") as f:
+            entry = (f"{time.ctime(now)}, {source}, {len(knocks[source])}, {attackers[source]}\n")
+            f.write(entry)
         if source not in recentAttackers or now - recentAttackers[source] > WINDOW_ATCK:
             print(f"attack: possible attacker {source} elevated to attacker due to excessive probes. count: {len(knocks[source])}")
             recentAttackers[source] = now
