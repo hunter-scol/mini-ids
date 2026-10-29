@@ -30,7 +30,7 @@ A lightweight network intrusion detection system written in Python
 | `--atck-threshold` | `50` | Unique possible attacker enteries befor source is an attacker |
 | `--window-knock` | `5` | Number of seconds in a port scan window |
 | `--window-pos` | `60` | Number of seconds in a possible attacker retention window |
-| `--window-atck` | `5` | Number of seconds in an attacker retention window |
+| `--window-atck` | `6` | Number of seconds in an attacker retention window |
 
 ## Design Choices:
 
