@@ -56,5 +56,17 @@ A lightweight network intrusion detection system written in Python
 
   - I wanted to include flood attack detection as well because it uses many of the same tools in its creation. I had to limit the number of ports included in an attack to alert a flood because in my research I saw that most floods attack a few ports with many SYNs, and port scan attacks target many ports with few SYNs. I considered making the differentiating variable the amount of probes on one port individually, but I figured this would miss flood attacks which target more than one port. That being said, if a flood was spread across more ports than your threshold is set to, it will not be recognized, but I figured this would be the better tradeoff, as a flood is more likely to be many probes on a few ports and a port scan attack is more likely to be a few probes on many ports.
 
+## Testing:
+All tests were run against localhost only.
+
+- ### Port Scan (nmap)
+  - **Command:** `nmap localhost`
+  - **Result:** `possible attack: source 127.0.0.1 to 127.0.0.1. 10 probes
+attack: possible attacker 127.0.0.1 elevated to attacker due to excessive probes. count: 50`
+
+- ### SYN Flood (hping3)
+  - **Command:** `sudo hping3 -S -p 80 -c 500 -i u1000 127.0.0.1`
+  - **Result:** `flood: 127.0.0.1 sent 200 SYNs in 1s`
+
 ## Ethical Disclaimer:
 DO NOT use this tool to scan any networks that you are unauthorized to scan.
