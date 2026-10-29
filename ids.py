@@ -44,7 +44,7 @@ print(f"PORTS_THRESHOLD: {PORTS_THRESHOLD}")
 
 if not os.path.exists("alerts.log") or os.path.getsize("alerts.log") == 0:
     with open("alerts.log", "a") as f:
-        f.write("time,source,probes,times_escalated\n")
+        f.write("time,type,source,probes_probed/SYNs_sent,times_escalated,ports_hit\n")
 
 def handle_packet(packet):
     if not packet.haslayer(TCP):
@@ -83,6 +83,9 @@ def handle_packet(packet):
     if len(floods[source]) >= FLOOD_THRESHOLD and len(ports) <= PORTS_THRESHOLD:
         if source not in recentFloods or now - recentFloods[source] > WINDOW_ATCK:
             print(f"flood: {source} sent {len(floods[source])} SYNs in {WINDOW_FLOOD}s")
+            with open("alerts.log", "a") as f:
+                entery = (f"{time.ctime(now)}, FLOOD,{source}, {len(floods[source])}, null, {len(ports)}\n")
+                f.write(entery)
             recentFloods[source] = now
 
     if len(knocks[source]) == POS_THRESHOLD and source not in posAttackers:
@@ -93,7 +96,7 @@ def handle_packet(packet):
     if len(knocks[source]) == ATCK_THRESHOLD and source in posAttackers:
         attackers[source] = attackers.get(source,0) + 1
         with open("alerts.log", "a") as f:
-            entry = (f"{time.ctime(now)}, {source}, {len(knocks[source])}, {attackers[source]}\n")
+            entry = (f"{time.ctime(now)}, PORT_SCAN,{source}, {len(knocks[source])}, {attackers[source]}, null\n")
             f.write(entry)
         if source not in recentAttackers or now - recentAttackers[source] > WINDOW_ATCK:
             print(f"attack: possible attacker {source} elevated to attacker due to excessive probes. count: {len(knocks[source])}")
