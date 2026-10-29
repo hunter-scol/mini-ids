@@ -16,7 +16,7 @@ A lightweight network intrusion detection system written in Python
   - Flags sources attempting to flood a specific set of TCP ports.
   - Adds to alerts.log.
   - Filters non-threatening packets and only flags for connection attempts.
-  - Cooldown allows for possible attackers to be re-recognized.
+  - Cooldown prints one alert per flood instead of one per packet.
 
 ## How To:
 
@@ -54,6 +54,7 @@ A lightweight network intrusion detection system written in Python
 
 - ### Flood detection vs Port detection
 
-  - I wanted to include flood attack detection as well becuase it uses many of the same tools in its creation.  I had to limit the number of ports included in an attack to alert a flood scan because in my research I saw that most flood scans attack a few ports with many pings and port scan attacks target many ports with few pings.  I considered making the differentiating variable the ammount of probes on one port individually, but I figured this would miss flood attacks which target more than one ports.  this being said if a flood was spread across more ports than what you have your threshold set to you will not recognize those, but I figured this would be the better trade off as the pattern seems more likely to be a flood is many probes on a few ports and a port scan attack is a few probes on many ports
+  - I wanted to include flood attack detection as well because it uses many of the same tools in its creation. I had to limit the number of ports included in an attack to alert a flood because in my research I saw that most floods attack a few ports with many SYNs, and port scan attacks target many ports with few SYNs. I considered making the differentiating variable the amount of probes on one port individually, but I figured this would miss flood attacks which target more than one port. That being said, if a flood was spread across more ports than your threshold is set to, it will not be recognized, but I figured this would be the better tradeoff, as a flood is more likely to be many probes on a few ports and a port scan attack is more likely to be a few probes on many ports.
+
 ## Ethical Disclaimer:
 DO NOT use this tool to scan any networks that you are unauthorized to scan.
