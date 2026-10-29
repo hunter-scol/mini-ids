@@ -3,15 +3,15 @@ from scapy.layers.inet import IP, TCP
 import time, argparse, os
 
 parser = argparse.ArgumentParser(description='Scan a network for probes and be alerted at suspicious behavior')
-parser.add_argument("--iface", default="lo", help="interface to use")
-parser.add_argument("--pos-threshold", type=int, default=10, help="number of probes allowed before a source is considered a possible attacker")
-parser.add_argument("--atck-threshold", type=int, default=50, help="number of probes allowed before a possible attacker is considered an attacker")
-parser.add_argument("--flood-threshold", type=int, default=200, help="number port maximum for an attack to be considered a flood")
-parser.add_argument("--ports-threshold", type=int, default=5, help="number of ports maximum for a scan to be considered a flood attack")
-parser.add_argument("--window-knock", type=int, default=5, help="number seconds in a segment of tracked probes")
-parser.add_argument("--window-pos", type=int, default=60, help="number seconds considered a window for the POS_THRESHOLD")
-parser.add_argument("--window-atck", type=int, default=60, help="number seconds considered a window for the ATCK_THRESHOLD")
-parser.add_argument("--window-flood", type=int, default=1, help="number seconds before a source can be considered a SYN flood")
+parser.add_argument("--iface", default="lo", help="Network interface to watch")
+parser.add_argument("--pos-threshold", type=int, default=10, help="Unique ports probed within the knock window before a source is flagged as a possible attacker")
+parser.add_argument("--atck-threshold", type=int, default=50, help="Unique ports probed within the knock window before a possible attacker is escalated to attacker and logged")
+parser.add_argument("--flood-threshold", type=int, default=200, help="SYNs from one source within the flood window before it counts as a SYN flood")
+parser.add_argument("--ports-threshold", type=int, default=5, help="Max different ports a flood can hit (more than this looks like a scan, not a flood)")
+parser.add_argument("--window-knock", type=int, default=5, help="Seconds a probe stays in the port scan sliding window")
+parser.add_argument("--window-pos", type=int, default=60, help="Seconds before a possible attacker is cleared and can be alerted again")
+parser.add_argument("--window-atck", type=int, default=60, help="Cooldown in seconds between printed attacker and flood alerts for the same source")
+parser.add_argument("--window-flood", type=int, default=1, help="Seconds in the SYN flood sliding window")
 
 args = parser.parse_args()
 iface = args.iface
@@ -36,11 +36,12 @@ print(f"iface setting: {iface}")
 print(f"POS_THRESHOLD: {POS_THRESHOLD}")
 print(f"ATCK_THRESHOLD: {ATCK_THRESHOLD}")
 print(f"FLOOD_THRESHOLD: {FLOOD_THRESHOLD}")
+print(f"PORTS_THRESHOLD: {PORTS_THRESHOLD}")
 print(f"WINDOW_KNOCK: {WINDOW_KNOCK}")
 print(f"WINDOW_POS: {WINDOW_POS}")
 print(f"WINDOW_ATCK: {WINDOW_ATCK}")
 print(f"WINDOW_FLOOD: {WINDOW_FLOOD}")
-print(f"PORTS_THRESHOLD: {PORTS_THRESHOLD}")
+
 
 if not os.path.exists("alerts.log") or os.path.getsize("alerts.log") == 0:
     with open("alerts.log", "a") as f:

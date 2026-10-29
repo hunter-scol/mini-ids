@@ -26,12 +26,14 @@ A lightweight network intrusion detection system written in Python
 | Option | Default | Description |
 |---|---|---|
 | `--iface` | `lo` | Network interface to watch |
-| `--pos-threshold` | `10` | Unique ports before a source is a possible attacker |
-| `--atck-threshold` | `50` | Unique possible attacker enteries befor source is an attacker |
-| `--window-knock` | `5` | Number of seconds in a port scan window |
-| `--window-pos` | `60` | Number of seconds in a possible attacker retention window |
-| `--window-atck` | `6` | Number of seconds in an attacker retention window |
-
+| `--pos-threshold` | `10` | Unique ports probed within the knock window before a source is flagged as a possible attacker |
+| `--atck-threshold` | `50` | Unique ports probed within the knock window before a possible attacker is escalated to attacker and logged |
+| `--flood-threshold` | `200` | SYNs from one source within the flood window before it counts as a SYN flood |
+| `--ports-threshold` | `5` | Max different ports a flood can hit (more than this looks like a scan, not a flood) |
+| `--window-knock` | `5` | Seconds a probe stays in the port scan sliding window |
+| `--window-pos` | `60` | Seconds before a possible attacker is cleared and can be alerted again |
+| `--window-atck` | `60` | Cooldown in seconds between printed attacker and flood alerts for the same source |
+| `--window-flood` | `1` | Seconds in the SYN flood sliding window |
 ## Design Choices:
 
 - ### Kernal Level SYN Filter:
