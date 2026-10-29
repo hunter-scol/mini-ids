@@ -7,7 +7,7 @@ parser.add_argument("--iface", default="lo", help="interface to use")
 parser.add_argument("--pos-threshold", type=int, default=10, help="number of probes allowed before a source is considered a possible attacker")
 parser.add_argument("--atck-threshold", type=int, default=50, help="number of probes allowed before a possible attacker is considered an attacker")
 parser.add_argument("--window-knock", type=int, default=5, help="number seconds in a segment of tracked probes")
-parser.add_argument("--window-pos", type=int, default=5, help="number seconds before a source can be reconsidered a possible attacker")
+parser.add_argument("--window-pos", type=int, default=60, help="number seconds before a source can be reconsidered a possible attacker")
 parser.add_argument("--window-atck", type=int, default=5, help="number seconds before a source can be reconsidered an attacker")
 
 args = parser.parse_args()
