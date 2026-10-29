@@ -49,7 +49,7 @@ def handle_packet(packet):
     now = time.time()
     recentKnocks = {}
     for port_num , knock_time in knocks[source].items():
-        if now - knock_time >= WINDOW_KNOCK:
+        if now - knock_time <= WINDOW_KNOCK:
             recentKnocks[port_num] = knock_time
     knocks[source] = recentKnocks
 
