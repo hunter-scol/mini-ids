@@ -27,6 +27,8 @@ print(f"iface setting: {iface}")
 print(f"POS_THRESHOLD: {POS_THRESHOLD}")
 print(f"ATCK_THRESHOLD: {ATCK_THRESHOLD}")
 print(f"WINDOW: {WINDOW_KNOCK}")
+print(f"WINDOW_POS: {WINDOW_POS}")
+print(f"WINDOW_ATCK: {WINDOW_ATCK}")
 
 if not os.path.exists("alerts.log") or os.path.getsize("alerts.log") == 0:
     with open("alerts.log", "a") as f:
