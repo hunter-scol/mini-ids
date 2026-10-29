@@ -61,12 +61,20 @@ All tests were run against localhost only.
 
 - ### Port Scan (nmap)
   - **Command:** `nmap localhost`
-    - **Result:** `possible attack: source 127.0.0.1 to 127.0.0.1. 10 probes`
-                  `attack: possible attacker 127.0.0.1 elevated to attacker due to excessive probes. count: 50`
+  - **Result:**
+    ```
+    possible attack: source 127.0.0.1 to 127.0.0.1. 10 probes
+    attack: possible attacker 127.0.0.1 elevated to attacker due to excessive probes. count: 50
+    ```
+  - No flood alert, as expected.
 
 - ### SYN Flood (hping3)
   - **Command:** `sudo hping3 -S -p 80 -c 500 -i u1000 127.0.0.1`
-  - **Result:** `flood: 127.0.0.1 sent 200 SYNs in 1s`
+  - **Result:**
+    ```
+    flood: 127.0.0.1 sent 200 SYNs in 1s
+    ```
+  - No port scan alerts, as expected.
 
 ## Ethical Disclaimer:
 DO NOT use this tool to scan any networks that you are unauthorized to scan.
